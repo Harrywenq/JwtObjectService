@@ -1,25 +1,40 @@
 package com.huytpq.SecurityEx.controller;
 
-import com.huytpq.SecurityEx.model.Users;
-import com.huytpq.SecurityEx.service.UserService;
+import com.huytpq.SecurityEx.service.impl.AccountService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Map;
 
 @RestController
 public class UserController {
-
     @Autowired
-    private UserService service;
+    private final AccountService accountService;
 
-    @PostMapping("/register")
-    public Users register(@RequestBody Users user) {
-        return service.register(user);
+    public UserController(AccountService accountService) {
+        this.accountService = accountService;
     }
 
-    @PostMapping("/login")
-    public String login(@RequestBody Users user) {
-        return service.verify(user);
+    @GetMapping("/info")
+    public String greet(HttpServletRequest request) {
+        return "Welcome sir, this session is " + request.getSession().getId();
+    }
+
+    @GetMapping("/")
+    public ResponseEntity<Map<String, Object>> getUserInfo(@AuthenticationPrincipal UserDetails userDetails) {
+        Map<String, Object> userInfo = accountService.getUserInfo(userDetails);
+        return ResponseEntity.ok(userInfo);
+    }
+
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
+    @GetMapping("/admin")
+    public String adminAccess() {
+        return "Admin Content";
     }
 }

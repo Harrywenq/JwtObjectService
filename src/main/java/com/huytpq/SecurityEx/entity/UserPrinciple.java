@@ -1,26 +1,43 @@
-package com.huytpq.SecurityEx.model;
+package com.huytpq.SecurityEx.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
-public class UserPrincipal implements UserDetails {
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+public class UserPrinciple implements UserDetails  {
 
-    private Users user;
-
-    public UserPrincipal(Users user) {
-        this.user = user;
+    private User user;
+    private List<Role> roles;
+    public UserPrinciple(Optional<User> user) {
     }
+//
+//    public UserPrinciple(Optional<User> user) {
+//        this.user = user;
+//    }
+
+//    @Override
+//    public Collection<? extends GrantedAuthority> getAuthorities() {
+//        return Collections.singleton(new SimpleGrantedAuthority("ROLE_USER"));
+//    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singleton(new SimpleGrantedAuthority("USER"));
+        return roles.stream()
+                .map(role -> new SimpleGrantedAuthority("ROLE_" + role.getName()))
+                .collect(Collectors.toList());
     }
+
 
     @Override
     public String getPassword() {
@@ -52,3 +69,4 @@ public class UserPrincipal implements UserDetails {
         return true;
     }
 }
+
