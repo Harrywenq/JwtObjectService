@@ -1,5 +1,6 @@
 package com.huytpq.SecurityEx.entity;
 
+import com.huytpq.SecurityEx.data.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,7 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "cm_object")
-public class Object {
+public class Object extends BaseEntity {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "cm_object_id_seq")

@@ -26,7 +26,7 @@ public class UserController {
         return "Welcome sir, this session is " + request.getSession().getId();
     }
 
-    @GetMapping("/")
+    @GetMapping("/getUserInfo")
     public ResponseEntity<Map<String, Object>> getUserInfo(@AuthenticationPrincipal UserDetails userDetails) {
         Map<String, Object> userInfo = accountService.getUserInfo(userDetails);
         return ResponseEntity.ok(userInfo);

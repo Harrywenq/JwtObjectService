@@ -1,12 +1,13 @@
 package com.huytpq.SecurityEx.entity;
 
+import com.huytpq.SecurityEx.data.BaseEntity;
 import jakarta.persistence.*;
 import lombok.Data;
 
 @Data
 @Entity
 @Table(name = "cm_role_permission")
-public class RolePermission {
+public class RolePermission extends BaseEntity {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "cm_role_permission_id_seq")

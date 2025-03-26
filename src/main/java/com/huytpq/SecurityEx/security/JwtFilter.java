@@ -1,4 +1,4 @@
-package com.huytpq.SecurityEx.config;
+package com.huytpq.SecurityEx.security;
 
 import com.huytpq.SecurityEx.service.impl.JWTService;
 import com.huytpq.SecurityEx.service.impl.MyUserDetailService;
